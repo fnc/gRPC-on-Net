@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Comm;
 
 namespace gRPC.Server
 {
@@ -13,8 +14,8 @@ namespace gRPC.Server
 			{
 				server = new Grpc.Core.Server()
 				{
-					Ports = { new Grpc.Core.ServerPort("localhost", Port,Grpc.Core.ServerCredentials.Insecure)
-					}
+					Services = { PersonService.BindService(new BasicPersonService())},
+					Ports = { new Grpc.Core.ServerPort("localhost", Port,Grpc.Core.ServerCredentials.Insecure)}
 				};
 				server.Start();
 				Console.WriteLine($"Server started on port {Port}!");

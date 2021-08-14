@@ -1,0 +1,16 @@
+syntax = "proto3";
+package comm;
+message Person{
+	string name = 1;
+	string lastName = 2;
+	string email = 3;
+}
+message PersonRequest{
+	Person person = 1;
+}
+message PersonResponse{
+	string result = 1;
+}
+service PersonService{
+	rpc AddPerson(PersonRequest) returns (PersonResponse){}
+}
