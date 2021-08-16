@@ -11,6 +11,19 @@ message PersonRequest{
 message PersonResponse{
 	string result = 1;
 }
+
+message PeopleRequest{
+	Person person = 1;
+}
+message PeopleResponse{
+	string result = 1;
+}
+
 service PersonService{
+	//Unary example
 	rpc AddPerson(PersonRequest) returns (PersonResponse){}
+	//Server streaming
+	rpc AddPersonClones(PersonRequest) returns (stream PersonResponse){}
+	//Client streaming
+	rpc AddPeople(stream PersonRequest) returns (PeopleResponse){}
 }

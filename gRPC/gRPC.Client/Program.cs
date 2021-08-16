@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Comm;
 using Grpc.Core;
 
@@ -9,17 +10,20 @@ namespace gRPC.Client
 		const string ServerHost = "localhost";
 		const int ServerPort = 50008;
 
-		static void Main(string[] args)
+		static async Task Main(string[] args)
 		{
 			try
 			{
 				var channel = new Channel($"{ServerHost}:{ServerPort}", ChannelCredentials.Insecure);
-				channel.ConnectAsync().ContinueWith((task) =>
+				await channel.ConnectAsync().ContinueWith((task) =>
 				{
 					if (task.Status == System.Threading.Tasks.TaskStatus.RanToCompletion) {
 						Console.WriteLine($"Client connected to {ServerHost}:{ServerPort}!");					
 					}
 				});
+
+				//Cretes the client with the provided channel
+				var client = new PersonService.PersonServiceClient(channel);
 
 				var request = new PersonRequest()
 				{
@@ -31,10 +35,39 @@ namespace gRPC.Client
 					}
 				};
 
-				var client = new PersonService.PersonServiceClient(channel);
+				//This is an unary communication. 
 				var response = client.AddPerson(request);
-
 				Console.WriteLine($"Result: {response.Result}");
+
+
+				//This is a server streaming communication.
+				var personResponse = client.AddPersonClones(request);
+
+				while (await personResponse.ResponseStream.MoveNext()) {
+					Console.WriteLine($"Result: {personResponse.ResponseStream.Current.Result}");
+				}
+
+				//This is a client streaming communication.
+				var peopleStream = client.AddPeople();
+                for (int i = 1; i <= 5; i++)
+                {
+					request = new PersonRequest()
+					{
+						Person = new Person()
+						{
+							Name = $"Sir {i}ington",
+							LastName = "Ramdinton",
+							Email = $"{i}ington.ramdinton@host.com"
+						}
+					};
+					await peopleStream.RequestStream.WriteAsync(request);
+				}
+
+				await peopleStream.RequestStream.CompleteAsync();
+
+				var peopleAddResponse = await peopleStream.ResponseAsync;
+
+				Console.WriteLine($"Result: {peopleAddResponse.Result}");
 
 				channel.ShutdownAsync().Wait();
 				Console.ReadKey();

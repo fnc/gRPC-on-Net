@@ -19,5 +19,34 @@ namespace gRPC.Server
 
 			return Task.FromResult(response);
 		}
-	}
+
+        public override async Task AddPersonClones(PersonRequest request, IServerStreamWriter<PersonResponse> responseStream, ServerCallContext context)
+        {
+			Console.WriteLine($"Add person clones request received: {request.ToString()}");
+
+			for (int i = 1; i <= 10; i++)
+			{
+				var message = $"{request.Person.Name} {request.Person.LastName}({request.Person.Email}) was added successfully {i} time(s).";
+
+				var response = new PersonResponse() { Result = message };
+
+				await responseStream.WriteAsync(response);
+			}
+        }
+
+        public override async Task<PeopleResponse> AddPeople(IAsyncStreamReader<PersonRequest> requestStream, ServerCallContext context)
+        {
+			var counter = 0;
+			Console.WriteLine($"Add people requested:");
+			while (await requestStream.MoveNext())
+            {
+				var person = requestStream.Current.Person;
+
+				Console.WriteLine($"{person.Name} {person.LastName}({person.Email}) was received.");
+
+				counter++;
+            }
+            return new PeopleResponse() { Result = $"{counter} people were added" };
+        }
+    }
 }
