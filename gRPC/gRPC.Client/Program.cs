@@ -20,7 +20,22 @@ namespace gRPC.Client
 						Console.WriteLine($"Client connected to {ServerHost}:{ServerPort}!");					
 					}
 				});
-				var client = new Operations.OperationsClient(channel);
+
+				var request = new PersonRequest()
+				{
+					Person = new Person()
+					{
+						Name = "Federico",
+						LastName = "Croci",
+						Email = "name@host.com"
+					}
+				};
+
+				var client = new PersonService.PersonServiceClient(channel);
+				var response = client.AddPerson(request);
+
+				Console.WriteLine($"Result: {response.Result}");
+
 				channel.ShutdownAsync().Wait();
 				Console.ReadKey();
 			}
