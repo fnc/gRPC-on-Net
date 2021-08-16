@@ -3,7 +3,7 @@
  This is a gRPC implementation on .net 5.
 
 ## Dependencies:
-- Google.Protobuf : protobu runtime
+- Google.Protobuf : protobuf runtime
 - GRPC.Tools: Proto compiler
 - GRPC.Core: .net implementation of gRPC.
 ## Proto file:
