@@ -11,10 +11,6 @@ message PersonRequest{
 message PersonResponse{
 	string result = 1;
 }
-
-message PeopleRequest{
-	Person person = 1;
-}
 message PeopleResponse{
 	string result = 1;
 }
@@ -26,4 +22,6 @@ service PersonService{
 	rpc AddPersonClones(PersonRequest) returns (stream PersonResponse){}
 	//Client streaming
 	rpc AddPeople(stream PersonRequest) returns (PeopleResponse){}
+	//Bidirectional Streaming
+	rpc AddPeopleClones (stream PersonRequest) returns (stream PeopleResponse){}
 }

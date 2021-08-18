@@ -6,12 +6,11 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "proto", "proto", "{E2E72B91-2E8B-47EC-8AF8-F804DBD847C9}"
 	ProjectSection(SolutionItems) = preProject
 		person.proto = person.proto
-		serviceCode.proto = serviceCode.proto
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gRPC.Client", "gRPC.Client\gRPC.Client.csproj", "{673879E0-5B67-4511-B867-CCFDF67996C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "gRPC.Client", "gRPC.Client\gRPC.Client.csproj", "{673879E0-5B67-4511-B867-CCFDF67996C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gRPC.Server", "gRPC.Server\gRPC.Server.csproj", "{76295538-B785-435D-B089-4C960259AD6E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "gRPC.Server", "gRPC.Server\gRPC.Server.csproj", "{76295538-B785-435D-B089-4C960259AD6E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -28,7 +28,13 @@
 
 ## Client Streaming:
 
-**n Requests, 1 or no Response.**
+**n Requests, 1 or no response.**
 
 ### uses:
  instead of sending a request object with a list of objects the client can send multiple objects.
+
+## Bidirectional Streaming
+
+**n requests, n responses**
+
+Server can read the request stream and write the response stream at the same time but looks like the client has to send all the requests first and then read all the responses.
