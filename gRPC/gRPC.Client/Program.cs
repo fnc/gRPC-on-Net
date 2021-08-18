@@ -84,17 +84,16 @@ namespace gRPC.Client
                             Email = $"{i}ington.bidir@host.com"
                         }
                     };
-                    await peopleClonesStream.RequestStream.WriteAsync(request);                
+                    await peopleClonesStream.RequestStream.WriteAsync(request);
+                    Console.WriteLine($"Person {request.Person.Name} {request.Person.LastName} was sent.");
+                    for (int j = 0; j < 10; j++)
+                    {
+                        await peopleClonesStream.ResponseStream.MoveNext();
+                        Console.WriteLine($"Result: {peopleClonesStream.ResponseStream.Current.Result}");
+                    }
                 }
 
                 await peopleClonesStream.RequestStream.CompleteAsync();
-
-                while (await peopleClonesStream.ResponseStream.MoveNext())
-                {
-                    Console.WriteLine($"Result: {peopleClonesStream.ResponseStream.Current.Result}");
-                }
-
-
 
                 channel.ShutdownAsync().Wait();
                 Console.ReadKey();

@@ -37,4 +37,5 @@
 
 **n requests, n responses**
 
-Server can read the request stream and write the response stream at the same time but looks like the client has to send all the requests first and then read all the responses.
+Server can read the request stream and write the response stream at the same time.
+The client can send all the requests and then read all the responses or send and read in any order but the logic for reading responses inbetween sending requests should be carefully designed.
