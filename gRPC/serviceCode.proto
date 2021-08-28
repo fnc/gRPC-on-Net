@@ -1,4 +1,0 @@
-syntax = "proto3";
-package comm;
-message DataPayload{}
-service Operations{}
